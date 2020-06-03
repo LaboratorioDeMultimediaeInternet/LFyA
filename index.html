@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+  <head>
+    <title>formDemo.html</title>
+    <meta charset = "UTF-8" />
+  </head>
+  <body>
+    <script language="javascript" type="text/javascript">
+    function limitText(limitField, limitNum) {
+        if (limitField.value.length > limitNum) {
+            limitField.value = limitField.value.substring(0, limitNum);
+        }
+    }
+    </script>
+    <script type="text/javascript" src="./scripts/Algoritmos.js"></script>
+    <script type="text/javascript" src="./scripts/Gramatica.js"></script>
+    <script type="text/javascript" src="./scripts/Recursividad.js"></script>
+    <h1>Form Demo</h1>
+    <form>
+      <fieldset>
+        <legend>Programa LFyA</legend>
+
+        <table id="myTable">
+
+          <tr>
+
+            <th>Ingresa tu gramática</th>
+
+          </tr>
+
+          <tr>
+
+            <td><input type="text" class="nt" placeholder="No Terminal" onKeyDown="limitText(this,1);" onKeyUp="limitText(this,1);"></td>
+
+            <td><input type="text" class="produccion" placeholder="Producción"/></td>
+
+            <td><button type="button">Agregar</button></td>
+
+            <td><button type="button" onclick="main();">Iniciar</button></td>
+
+          </tr>
+
+        </table>
+
+        <p id="demo"></p>
+        <p id="demo2"></p>
+        <p id="demo3"></p>
+        <p id="demo4"></p>
+      </fieldset>
+    </form>
+  </body>
+</html>
