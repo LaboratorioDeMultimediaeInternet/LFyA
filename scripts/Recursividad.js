@@ -39,8 +39,9 @@ function EliminarRecursividad(gramatica){
           insert(aux2, element.slice(1) + L[i] + '"');
       }
       gramatica.P[L[i]] = aux1;
-      addNT(gramatica,  L[i] + '"', aux2)
-      gramatica.L.splice(i + 1, 0, L[i] + '"');
+      gramatica.P[L[i] + '"'] = aux2;
+      insert(gramatica.L, L[i] + '"');
+      //gramatica.L.splice(i + 1, 0, L[i] + '"');
     }
   }
   gramatica.NT = gramatica.L;
