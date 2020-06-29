@@ -21,13 +21,13 @@ class Gramatica{
           insert(this.NT, element); // Insertamos el simbolo en NT
           this.P[element].forEach(produccion => {
               // Para cada Produccion de dicho NT (element)
-              let prod = produccion.match(/[a-z]|#|([A-Z](\"|[0-9]+)?)/g);
-              for(var i = 0; i < prod.length; i++){
+              for(var i = 0; i < produccion.length; i++){
                   // Para cada simbolo de las producciones
-                  if(this.isT(prod[i])) 
-                      insert(this.T, prod[i]); // Si el símbolo es terminal se guarda en 'T'
+                  var c = produccion.charAt(i);
+                  if(this.isT(c)) 
+                      insert(this.T, c); // Si el símbolo es terminal se guarda en 'T'
                   else
-                      insert(this.NT, prod[i]); // Si el simbolo es no terminal se guarda en 'NT'
+                      insert(this.NT, c); // Si el simbolo es no terminal se guarda en 'NT'
               }
           });
       });
@@ -48,11 +48,11 @@ class Gramatica{
   }
   
   isNT(symbol){ // Si el simbolo es mayuscula, es NT
-    return symbol == symbol.match(/#|([A-Z](\"|[0-9]+)?)/g);
+      return symbol === symbol.toUpperCase();
   }
 
   isT(symbol){ // si el simbolo es minuscula es T
-    return symbol == symbol.match(/[a-z]+|#/g);
+      return symbol === symbol.toLowerCase();
   }
 }
 

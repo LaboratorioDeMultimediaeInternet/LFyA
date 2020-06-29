@@ -23,9 +23,8 @@ function SimbolosMuertos(gramatica){
             P[element].forEach(produccion => {
                 if(produccion != null){
                     var derivable = true;
-                    let r_prod = produccion.match(/[a-z]|#|([A-Z](\"|[0-9]+)?)/g);
-                    for(var i = 0; i < r_prod.length; i++){
-                        var c = r_prod[i];
+                    for(var i = 0; i < produccion.length; i++){
+                        var c = produccion.charAt(i);
                         if(gramatica.isNT(c) && gramatica1.NT.indexOf(c) == -1) // Si el simbolo NT aun no esta en la lista de NT
                             derivable = false;
                     }
@@ -59,17 +58,17 @@ function SimbolosInaccesibles(gramatica){
         gramatica.P[SNT].forEach(produccion => {
             // Para cada producción
             prod.addNT(SNT, produccion); // Agregamos la producción
-            let r_prod = produccion.match(/[a-z]|#|([A-Z](\"|[0-9]+)?)/g);
-            for(var i = 0; i < r_prod.length; i++){
+            for(var i = 0; i < produccion.length; i++){
                 // Para cada simbolo de la producción
-                if(gramatica.isT(r_prod[i])) // si se indentifica un terminal
-                    insert(gramatica1.T, r_prod[i]);
+                var c = produccion.charAt(i);
+                if(gramatica.isT(c)) // si se indentifica un terminal
+                    insert(gramatica1.T, c);
                 else{
                     // Si se identifica un No Terminal
-                    if(insert(gramatica1.NT, r_prod[i])){
+                    if(insert(gramatica1.NT, c)){
                         // El NT se añade a la cola, para despues colocar sus producciones
-                        insert(gramatica1.L, r_prod[i])
-                        queue.push(r_prod[i]);
+                        insert(gramatica1.L, c)
+                        queue.push(c);
                     }
                 }
             }
@@ -257,12 +256,9 @@ function main(){
     //gramatica[0].initGram('A',{'A':['aB', 'BB', 'A'], 'B':['#', 'Cd', 'Cda', 'Aa'], 'C':['aC', 'aB', 'ab', 'Feo', 'B', 'C'], 'I':['aI', 'Ia'], 'E' :['a', 'b', 'e']  }, ['A', 'B','C','I', 'E']);
     //gramatica[0].initGram('A',{'A':['A', 'BS', 'ab', 'bb', '#'], 'B':['S', 'HA', 'cc'], 'S':['abb', 'aa', 'S'], 'F':['xA', 'x']}, ['A', 'B','S','F']);
     //gramatica[0].initGram('H',{'H':['N', 'X', 't', '0p'], 'N':['b', 'ss', 'HX', '#'], 'X':['#', 'Ab', 'Tv'], 'M':['N', 'ss'], 'A' : ['bA', 'aAb']}, ['H', 'N','X','M', 'A']);
-    //gramatica[0].initGram('R',{'R':['MCT', 'Vs', 'Dm', 'Lat'], 'M':['RS', '#'], 'C':['#', 'CC'], 'T':['cM', '#'], 'V' : ['sat', 'mVM'],
-        //'D': ['ms', 'tcr', 'anL'], 'L' : ['cAmD', 'McTtV', 'Rat'], 'F' : ['RaFm', 'ats']
-    //}, ['R', 'M','C','T', 'V', 'D', 'L', 'F']);
-    
-    //gramatica[0].initGram('A',{'A':['bC','dB'],'B':['aC','cD'],'C':['dA','aaB'],'D':['bb','bC']},['A','B','C','D']);
-    gramatica[0].initGram('M',{'M':['Mca','MR','c'],'R':['Ma','Mbb','abcb'],'P':['Rmp','MbmM'],'I':['pc','Rm','PaPa'],'V':['MP','IV','VaMbPmR','a']},['M','R','P','I','V']);
+    gramatica[0].initGram('R',{'R':['MCT', 'Vs', 'Dm', 'Lat'], 'M':['RS', '#'], 'C':['#', 'CC'], 'T':['cM', '#'], 'V' : ['sat', 'mVM'],
+        'D': ['ms', 'tcr', 'anL'], 'L' : ['cAmD', 'McTtV', 'Rat'], 'F' : ['RaFm', 'ats']
+    }, ['R', 'M','C','T', 'V', 'D', 'L', 'F']);
     gramatica[1] = SimbolosMuertos(DuplicarGramatica(gramatica[0])); // Se guarda en gramatica[1] el resultado de simbolos Muertos
     gramatica[2] = SimbolosInaccesibles(DuplicarGramatica(gramatica[1]));  // Se guarda en gramatica[2] el resultado de simbolos Muertos
     gramatica[3] = ProduccionesVacias(DuplicarGramatica(gramatica[2]));
@@ -271,6 +267,4 @@ function main(){
     gramatica[6] = SimbolosInaccesibles(DuplicarGramatica(gramatica[5]));
     for (var i = 0; i < 7; i++) 
         console.log(i + '\n' + gramatica[i])
-    EliminarRecursividad(gramatica[6]);
-    FN_Chomsky(DuplicarGramatica(gramatica[6]));
 }
