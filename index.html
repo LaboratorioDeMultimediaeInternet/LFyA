@@ -5,13 +5,6 @@
     <meta charset = "UTF-8" />
   </head>
   <body>
-    <script language="javascript" type="text/javascript">
-    function limitText(limitField, limitNum) {
-        if (limitField.value.length > limitNum) {
-            limitField.value = limitField.value.substring(0, limitNum);
-        }
-    }
-    </script>
     <script type="text/javascript" src="./scripts/Algoritmos.js"></script>
     <script type="text/javascript" src="./scripts/Gramatica.js"></script>
     <h1>Form Demo</h1>
@@ -22,23 +15,54 @@
         <table id="myTable">
 
           <tr>
-
-            <th>Ingresa tu gramática</th>
-
+            <th>Instrucciones</th>
           </tr>
 
           <tr>
-
-            <td><input type="text" class="nt" placeholder="No Terminal" onKeyDown="limitText(this,1);" onKeyUp="limitText(this,1);"></td>
-
-            <td><input type="text" class="produccion" placeholder="Producción"/></td>
-
-            <td><button type="button">Agregar</button></td>
-
-            <td><button type="button" onclick="main();">Iniciar</button></td>
-
+            <div style="width: 50em;">
+            <p>Para realizar la transformación de una gramática a gramática propia,
+            se debe colocar en el reacuadro "Producciones", la lista de producciones de 
+            la gramática.
+            </p>
+            <p>El formato de la gramática debe ser el siguiente:</p>
+            <ol>
+              <li>Para los símbolos No Terminales se emplean letras mayusculas</li>
+              <li>Para los simbolos terminales se emplean letras minusculas y números</li>
+              <li>La producción vacía se identifica por: <bf>#</bf></li>
+            </ol>
+            <p>
+              Para colocar las reglas de producción de un símbolo No Terminal
+              se debe poner entre comillas dobles el símbolo, seguido de dos puntos
+              y una lista (delimitada por "[]") con las producciones correspondientes al símbolo
+            </p>
+            <p>
+              Cada produccion se coloca entre comillas dobles y se separa por una coma
+            </p>
+            <p>
+            Ejemplo de gramatica válida:
+            </p>
+            "A":["Caba", "Baca", "aba", "#", "aba"], <br>
+            "B":["c", "Cba", "AB","d"], <br>
+            "C":["Caca", "Coco","Adios"], <br>
+            "D":["a", "3a"]
+          </div>
           </tr>
 
+          <tr>
+            <th>Ingresa tu gramática</th>
+          </tr>
+          <tr>
+            <td><textarea id="producciones" rows="10" cols="100" placeholder="Producciones"></textarea></td>
+          </tr>
+          <tr>
+            <td><button type="button" onclick="main();">Iniciar</button></td>
+          </tr>
+          <tr>
+            <th>Resultados</th>
+          </tr>
+          <tr>
+            <td><textarea id="resultados" rows="50" cols="100" placeholder="Gramática Propia"></textarea></td>
+          </tr>
         </table>
 
         <p id="demo"></p>

@@ -233,7 +233,7 @@ function SimbolosUnitarios(gramatica){
 
 function main(){
     /*
-        Función Principal, es la que boton Inicial manda a llamar
+        Función Principal, es la que el botón Inicial manda a llamar
     */
     var gramatica = new Array(); // Arreglo de gramaticas para cada una de las resultantes luego de aplicar un algoritmo
     gramatica[0] = new Gramatica();
@@ -244,27 +244,33 @@ function main(){
         - Segundo argumento: Objeto con las producciones, cada NT -> (TNT)* es un atributo
         - Tercer argumento: Lista de los NT que producen, debe estar en el mismo orden descrito en el argumento dos  
     */
-    //gramatica[0].initGram('A',{'A':['Caba', 'Baca', 'aba', '#', 'aba'], 'B':['c', 'Cba', 'AB','d'], 'C':['Caca', 'Coco','Adios'], 'D':['a', '3']}, ['A', 'B','C','D']);
-    //gramatica[0].initGram('A',{'A':['xN', 'bb', '#', 'F'], 'N':['za', 'aa', 'E','SA'], 'F':['ab7', 'op9', 'Qr', 'A'], 'E':['Ea', 'EE', 'zb!']},['A', 'N', 'F', 'E']);
-    //gramatica[0].initGram('A',{'A':['a', 'b', 'c', 'Bab', 'C'], 'B':['e', 'd', 'f','aCbC'], 'C':['#', 'b', 'aDbDaD'], 'D':['a', 'b', '#', 'aF', 'B'], 'F':['FaFa'], 'G':['a', 'b', 'c']},['A', 'B', 'C', 'D', 'F', 'G']);
-    //gramatica[0].initGram('X',{'X':['abc', 'aX', 'aY', 'cW', 'W', 'X'], 'Y':['b', 'a', 'bW', 'bZ', '#', 'Y'], 'W':['aWb'], 'S':['a', 'b']}, ['X', 'Y','W','S']);
-    //gramatica[0].initGram('X',{'X':['abc', 'aX', 'aY', 'aW', 'W', 'X', '#'], 'Y':['b', 'a', 'bW', 'bZ', 'dZ', '#', 'Y'], 'W':['aWb', 'q', '#'], 'S':['a', 'b', '#'], 'Z':['Xab', 'Wc', 'Y', 'Z']}, ['X', 'Y','W','S', 'Z']);
-    
-    //gramatica[0].initGram('A',{'A':['a', 'b', 'e', 'd', 'aD', 'C', '#'], 'C':['#', 'Ab'], 'D':['C', 'bC', 'F'], 'E':['a', 'b', 'e', 'E'], 'I':['#', 'A', 'B']}, ['A', 'C','D','E', 'I']);
-    //gramatica[0].initGram('A',{'A':['aB', 'abba', 'C', '#'], 'B':['Ba', 'BB', 'gEe', "#"], 'E':['a', 'b', 'C', 'aHa'], 'C':['bb', 'aa', '#', 'Aab'], 'F':['ab', 'AB']}, ['A', 'B','E','C', 'F']);
-    //gramatica[0].initGram('A',{'A':['aBBBa', 'Celia', '#'], 'B':['#', 'CaaCdC', 'eF', 'gH'], 'C':['a', 'b', 'B', 'FggBdB'], 'F':['BB', 'a', 'd', 'B'], 'I' :['BA', 'AC', 'AA']  }, ['A', 'B','C','F', 'I']);
-    //gramatica[0].initGram('A',{'A':['aB', 'BB', 'A'], 'B':['#', 'Cd', 'Cda', 'Aa'], 'C':['aC', 'aB', 'ab', 'Feo', 'B', 'C'], 'I':['aI', 'Ia'], 'E' :['a', 'b', 'e']  }, ['A', 'B','C','I', 'E']);
-    //gramatica[0].initGram('A',{'A':['A', 'BS', 'ab', 'bb', '#'], 'B':['S', 'HA', 'cc'], 'S':['abb', 'aa', 'S'], 'F':['xA', 'x']}, ['A', 'B','S','F']);
-    //gramatica[0].initGram('H',{'H':['N', 'X', 't', '0p'], 'N':['b', 'ss', 'HX', '#'], 'X':['#', 'Ab', 'Tv'], 'M':['N', 'ss'], 'A' : ['bA', 'aAb']}, ['H', 'N','X','M', 'A']);
-    gramatica[0].initGram('R',{'R':['MCT', 'Vs', 'Dm', 'Lat'], 'M':['RS', '#'], 'C':['#', 'CC'], 'T':['cM', '#'], 'V' : ['sat', 'mVM'],
-        'D': ['ms', 'tcr', 'anL'], 'L' : ['cAmD', 'McTtV', 'Rat'], 'F' : ['RaFm', 'ats']
-    }, ['R', 'M','C','T', 'V', 'D', 'L', 'F']);
+
+    simbolosNT = new Array();
+    listaProducciones = document.getElementById("producciones").value;
+    if(listaProducciones.length == 0)
+        alert('Lista de producciones Invalida');
+    var LNT = listaProducciones.split('\n')
+    LNT.forEach(regla =>{
+        simbolosNT.push(regla[1]);
+    });
+
+    listaProducciones = JSON.parse('{' + listaProducciones + '}');
+
+    resultados = document.getElementById("resultados");
+
+    gramatica[0].initGram(simbolosNT[0],listaProducciones, simbolosNT);
+    resultados.innerHTML = 'Gramática Inicial:\n' + gramatica[0] + '\n';
     gramatica[1] = SimbolosMuertos(DuplicarGramatica(gramatica[0])); // Se guarda en gramatica[1] el resultado de simbolos Muertos
+    resultados.innerHTML += 'Eliminación de Símbolos Muertos:\n' + gramatica[1] + '\n';
     gramatica[2] = SimbolosInaccesibles(DuplicarGramatica(gramatica[1]));  // Se guarda en gramatica[2] el resultado de simbolos Muertos
+    resultados.innerHTML += 'Eliminación de Símbolos Inaccesibles:\n' + gramatica[2] + '\n';
     gramatica[3] = ProduccionesVacias(DuplicarGramatica(gramatica[2]));
+    resultados.innerHTML += 'Eliminación de Símbolos Vacíos:\n' + gramatica[3] + '\n';
     gramatica[4] = SimbolosUnitarios(DuplicarGramatica(gramatica[3]));
+    resultados.innerHTML += 'Eliminación de Símbolos Unitarios:\n' + gramatica[4] + '\n';
     gramatica[5] = SimbolosMuertos(DuplicarGramatica(gramatica[4])); 
+    resultados.innerHTML += 'Eliminación de Símbolos Muertos:\n' + gramatica[1] + '\n';
     gramatica[6] = SimbolosInaccesibles(DuplicarGramatica(gramatica[5]));
-    for (var i = 0; i < 7; i++) 
-        console.log(i + '\n' + gramatica[i])
+    resultados.innerHTML += 'Eliminación de Símbolos Inaccesibles:\n' + gramatica[2] + '\n';
+
 }
