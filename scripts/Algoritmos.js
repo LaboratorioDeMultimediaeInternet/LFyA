@@ -269,8 +269,13 @@ function main(){
     gramatica[4] = SimbolosUnitarios(DuplicarGramatica(gramatica[3]));
     resultados.innerHTML += 'Eliminación de Símbolos Unitarios:\n' + gramatica[4] + '\n';
     gramatica[5] = SimbolosMuertos(DuplicarGramatica(gramatica[4])); 
-    resultados.innerHTML += 'Eliminación de Símbolos Muertos:\n' + gramatica[1] + '\n';
+    resultados.innerHTML += 'Eliminación de Símbolos Muertos:\n' + gramatica[5] + '\n';
     gramatica[6] = SimbolosInaccesibles(DuplicarGramatica(gramatica[5]));
-    resultados.innerHTML += 'Eliminación de Símbolos Inaccesibles:\n' + gramatica[2] + '\n';
-
+    resultados.innerHTML += 'Eliminación de Símbolos Inaccesibles:\n' + gramatica[6] + '\n';
+    gramatica[7] = EliminarRecursividad(gramatica[6]);
+    resultados.innerHTML += 'Eliminación de Recursividad:\n' + gramatica[7] + '\n';
+    gramatica[8] = FN_Chomsky(gramatica[7]);
+    resultados.innerHTML += 'FNC:\n' + gramatica[8] + '\n';
+    gramatica[9] = FN_Greibach(gramatica[8]);
+    resultados.innerHTML += 'FNG:\n' + gramatica[9] + '\n';
 }

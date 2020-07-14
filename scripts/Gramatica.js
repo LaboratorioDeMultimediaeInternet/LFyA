@@ -5,12 +5,13 @@ class Gramatica{
    */
 
   constructor(){
-      this.S; // Simbolo Inicial
-      this.P; // Producciones
-      this.NT = new Array(); // No Terminales
-      this.T = new Array(); // Terminales 
-      this.L; // JavaScript ordena las Producciones por orden alfabetico, por lo que es necesaria una lista de con el orden corrcto de los NT que producen
-  }
+    this.S; // Simbolo Inicial
+    this.P; // Producciones
+    this.NT = new Array(); // No Terminales
+    this.T = new Array(); // Terminales 
+    this.L; // JavaScript ordena las Producciones por orden alfabetico, por lo que es necesaria una lista de con el orden corrcto de los NT que producen
+    this.auxT = new auxTerminal();
+    }
 
   initGram(S,P,L){ // Inicializamos la gramatica
       this.L = L
@@ -21,13 +22,13 @@ class Gramatica{
           insert(this.NT, element); // Insertamos el simbolo en NT
           this.P[element].forEach(produccion => {
               // Para cada Produccion de dicho NT (element)
-              for(var i = 0; i < produccion.length; i++){
+              let prod = produccion.match(/[a-z]|#|([A-Z](\"|[0-9]+)?)/g);
+              for(var i = 0; i < prod.length; i++){
                   // Para cada simbolo de las producciones
-                  var c = produccion.charAt(i);
-                  if(this.isT(c)) 
-                      insert(this.T, c); // Si el símbolo es terminal se guarda en 'T'
+                  if(this.isT(prod[i])) 
+                      insert(this.T, prod[i]); // Si el símbolo es terminal se guarda en 'T'
                   else
-                      insert(this.NT, c); // Si el simbolo es no terminal se guarda en 'NT'
+                      insert(this.NT, prod[i]); // Si el simbolo es no terminal se guarda en 'NT'
               }
           });
       });
@@ -48,11 +49,11 @@ class Gramatica{
   }
   
   isNT(symbol){ // Si el simbolo es mayuscula, es NT
-      return symbol === symbol.toUpperCase();
+    return symbol == symbol.match(/#|([A-Z](\"|[0-9]+)?)/g);
   }
 
   isT(symbol){ // si el simbolo es minuscula es T
-      return symbol === symbol.toLowerCase();
+    return symbol == symbol.match(/[a-z]+|#/g);
   }
 }
 
@@ -85,4 +86,15 @@ function addNT(gramatica, NT, produccion){
         insert(this[NT], produccion); // Si existe el atributo correspondiente al NT se inserta en su lista de producciones
     else
         gramatica.P[NT] = new Array(produccion); // Si no existe, se crea el atributo y se le asigna una lista y a ella la producción
+}
+
+class auxTerminal{
+    addT(Y, T){
+        if(!this[Y])
+            this[Y] = T;
+    }
+
+    getT(Y){
+        return this[Y];
+    }
 }
