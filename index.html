@@ -1,78 +1,102 @@
-<!DOCTYPE HTML>
-<html lang = "en">
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>formDemo.html</title>
-    <meta charset = "UTF-8" />
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
   </head>
-  <body>
-    <script type="text/javascript" src="./scripts/Algoritmos.js"></script>
-    <script type="text/javascript" src="./scripts/Gramatica.js"></script>
-    <script type="text/javascript" src="./scripts/Recursividad.js"></script>
-    <script type="text/javascript" src="./scripts/Chomsky.js"></script>
-    <script type="text/javascript" src="./scripts/Greibach.js"></script>
-    <h1>Form Demo</h1>
-    <form>
-      <fieldset>
-        <legend>Programa LFyA</legend>
-
-        <table id="myTable">
-
-          <tr>
-            <th>Instrucciones</th>
-          </tr>
-
-          <tr>
-            <div style="width: 50em;">
-            <p>Para realizar la transformación de una gramática a gramática propia,
-            se debe colocar en el reacuadro "Producciones", la lista de producciones de 
-            la gramática.
-            </p>
-            <p>El formato de la gramática debe ser el siguiente:</p>
-            <ol>
-              <li>Para los símbolos No Terminales se emplean letras mayusculas</li>
-              <li>Para los simbolos terminales se emplean letras minusculas y números</li>
-              <li>La producción vacía se identifica por: <bf>#</bf></li>
-            </ol>
-            <p>
-              Para colocar las reglas de producción de un símbolo No Terminal
-              se debe poner entre comillas dobles el símbolo, seguido de dos puntos
-              y una lista (delimitada por "[]") con las producciones correspondientes al símbolo
-            </p>
-            <p>
-              Cada produccion se coloca entre comillas dobles y se separa por una coma
-            </p>
-            <p>
-            Ejemplo de gramatica válida:
-            </p>
-            "A":["bC","dB"], <br>
-            "B":["AaC","cD"], <br>
-            "C":["dA","aa"], <br>
-            "D":["Abb","bC"] <br>
-          </div>
-          </tr>
-
-          <tr>
-            <th>Ingresa tu gramática</th>
-          </tr>
-          <tr>
-            <td><textarea id="producciones" rows="10" cols="100" placeholder="Producciones"></textarea></td>
-          </tr>
-          <tr>
-            <td><button type="button" onclick="main();">Iniciar</button></td>
-          </tr>
-          <tr>
-            <th>Resultados</th>
-          </tr>
-          <tr>
-            <td><textarea id="resultados" rows="50" cols="100" placeholder="Gramática Propia"></textarea></td>
-          </tr>
-        </table>
-
-        <p id="demo"></p>
-        <p id="demo2"></p>
-        <p id="demo3"></p>
-        <p id="demo4"></p>
-      </fieldset>
-    </form>
+  <body class="container my-5">
+    <h1 class="text-center">Programa LFyA</h1>
+    <h2>Instrucciones</h2>
+    <p>
+      Para realizar la transformación de una gramática a gramática propia, se
+      debe colocar en el reacuadro "Producciones", la lista de producciones de
+      la gramática.
+    </p>
+    <p>El formato de la gramática debe ser el siguiente:</p>
+    <ol>
+      <li>Para los símbolos No Terminales se emplean letras mayusculas</li>
+      <li>
+        Para los simbolos terminales se emplean letras minusculas y números
+      </li>
+      <li>La producción vacía se identifica por: <bf>#</bf></li>
+    </ol>
+    <p>
+      Para colocar las reglas de producción de un símbolo No Terminal se debe
+      poner entre comillas dobles el símbolo, seguido de dos puntos y una lista
+      (delimitada por "[]") con las producciones correspondientes al símbolo
+    </p>
+    <p>
+      Cada produccion se coloca entre comillas dobles y se separa por una coma
+    </p>
+    <p>Ejemplo de gramatica válida:</p>
+    "A":["bC","dB"], <br />
+    "B":["AaC","cD"], <br />
+    "C":["dA","aa"], <br />
+    "D":["Abb","bC"] <br />
+    <div class="row justify-content-center">
+      <h4 class="col-12 text-center">Ingresa tu gramática</h4>
+      <textarea
+        id="producciones"
+        rows="15"
+        class="col-8"
+        placeholder="Producciones"
+      ></textarea>
+    </div>
+    <div class="row justify-content-center my-3">
+      <button class="btn btn-primary col-1" type="button" onclick="main();">
+        Iniciar
+      </button>
+    </div>
+    <div id="res-propia">
+      <div class="row justify-content-center">
+        <h4 class="col-12 text-center">Resultados</h4>
+        <textarea
+          id="resultados"
+          rows="15"
+          placeholder="Gramática Propia"
+          class="col-8"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row justify-content-center my-3">
+      <button
+        class="btn btn-danger col-2 ml-5"
+        type="button"
+        id="btn-limpiar"
+        onclick="limpiar();"
+      >
+        Limpiar Gramática
+      </button>
+    </div>
+    <div id="res-limpiar">
+      <div class="row justify-content-center mb-5">
+        <h4 class="col-12 text-center">
+          Resultados de Aplicar los Algoritmos de Recursividad, Chomsky y
+          Greibach
+        </h4>
+        <textarea
+          id="resultadosRCG"
+          rows="15"
+          class="col-8"
+          placeholder="Gramática"
+        ></textarea>
+      </div>
+    </div>
   </body>
+  <script>
+    document.getElementById("res-propia").style.display = "none";
+    document.getElementById("btn-limpiar").style.display = "none";
+    document.getElementById("res-limpiar").style.display = "none";
+  </script>
+  <script type="text/javascript" src="./scripts/Algoritmos.js"></script>
+  <script type="text/javascript" src="./scripts/Gramatica.js"></script>
+  <script type="text/javascript" src="./scripts/Recursividad.js"></script>
+  <script type="text/javascript" src="./scripts/Chomsky.js"></script>
+  <script type="text/javascript" src="./scripts/Greibach.js"></script>
 </html>
